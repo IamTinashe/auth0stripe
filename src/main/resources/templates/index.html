@@ -1,15 +1,76 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Welcome</title>
+    <style>
+            body {
+                font-family: ulp-font, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, sans-serif;
+                font-size: 18px;
+            }
+            .button-section{
+                float: left;
+                width: 50%;
+                margin: auto;
+            }
+            .button {
+                position: relative;
+                width: 100%;
+                background-color: #0059d6;
+                color: #fff;
+                border-width : 0;
+                border-color: #0059d6;
+                padding: 10px 0 10px 0;
+                width: 50%;
+                cursor: pointer;
+            }
+            .link{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                width: 100%;
+            }
+            #checkout-form input,
+            #checkout-form button {
+                display: block;
+                margin: 12px;
+            }
+        </style>
+</head>
 <body>
-<div sec:authorize="!isAuthenticated()">
-    <a th:href="@{/oauth2/authorization/auth0}">Log In</a>
-</div>
+    <div style="width: 100%; overflow: hidden; margin-top: 10%;" sec:authorize="!isAuthenticated()">
+        <div class="button-section">
+            <a class="link" th:href="@{/oauth2/authorization/auth0}">
+                <button class="button">SIGNIN</button>
+            </a>
+        </div>
+        <div class="button-section">
+            <a class="link" th:href="@{/oauth2/authorization/auth0}">
+                <button class="button">SIGNUP</button>
+            </a>
+        </div>
+    </div>
 <div sec:authorize="isAuthenticated()">
     <img th:src="${profile.get('picture')}" th:attr="alt=${profile.get('name')}"/>
     <h2 th:text="${profile.get('name')}"></h2>
     <p th:text="${profile.get('email')}"></p>
     <a th:href="@{/logout}">Log Out</a>
-    <a th:href="@{/checkout}">Checkout</a>
-    <p>Hello</p>
+    <a th:href="@{/member}">Member</a>
+
+
+    <form th:action="@{/charge}" method="post" id='checkout-form'>
+        <input type='hidden' th:value='${amount}' name='amount' />
+        <label>€<span th:text='${amount/100}' /></label>
+        <script
+                src='https://checkout.stripe.com/checkout.js'
+                class='stripe-button'
+                th:attr='data-key=${stripePublicKey}, data-amount=${amount}, data-currency=${currency}'
+                data-name='Stripe'
+                data-description='SUBSCRIBE'
+                data-image='https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg'
+                data-locale='auto'
+                data-zip-code='false'>
+        </script>
+    </form>
 </div>
 </body>
 </html>

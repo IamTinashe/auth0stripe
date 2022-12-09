@@ -6,6 +6,7 @@ spring:
           auth0:
             client-id: ai0MGz4FzzEmhJznAaLw4M2EKYT4ye25
             client-secret: FQjIohAirMKJoCAYx45w-da4JJRhhQdZ1OfroHJ8_bsN2--QY3juFJQewHP4RRq6
+            #redirect_uri: http://localhost:8080/member
             scope:
               - openid
               - profile

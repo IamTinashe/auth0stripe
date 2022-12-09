@@ -21,7 +21,9 @@ public class StripeService {
   public void init() {
     Stripe.apiKey = secretKey;
   }
-
+  // 4242 4242 4242 4242
+  // 12/34
+  // 567
   public Charge charge(ChargeRequest chargeRequest)
           throws AuthenticationException, InvalidRequestException, APIConnectionException, CardException, APIException, APIException {
     Map<String, Object> chargeParams = new HashMap<>();

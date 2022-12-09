@@ -1,27 +1,22 @@
 package com.hinyin.authstripe.controllers;
 
-import com.hinyin.authstripe.payload.ChargeRequest;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.java.Log;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+@Log
 @Controller
-public class HomeController {
+public class MembersController {
 
-  @Value("${STRIPE_PUBLIC_KEY}")
-  private String stripePublicKey;
-  @GetMapping("/")
+  @GetMapping("/member")
   public String home(Model model, @AuthenticationPrincipal OidcUser principal) {
+    System.out.println(principal);
     if (principal != null) {
-      model.addAttribute("amount", 1 * 100);
-      model.addAttribute("stripePublicKey", stripePublicKey);
-      model.addAttribute("currency", ChargeRequest.Currency.EUR);
       model.addAttribute("profile", principal.getClaims());
     }
-    return "index";
+    return "member";
   }
 }
